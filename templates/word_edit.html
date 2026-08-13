@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Изменить слово{% endblock %}
+{% block content %}
+<h2>Изменить слово</h2>
+<div class="card">
+    <form method="POST">
+        <label>Слово (английский)</label>
+        <input type="text" name="word" value="{{ word.word }}" required>
+        <label>Перевод</label>
+        <input type="text" name="translation" value="{{ word.translation }}" required>
+        <label>Синонимы (через запятую)</label>
+        <input type="text" name="synonyms" value="{{ word.synonyms | join(', ') }}">
+        <label>Словосочетания (по одному на строке)</label>
+        <textarea name="collocations" rows="5">{{ word.collocations | join('\n') }}</textarea>
+        <button class="btn" type="submit" style="width:100%">Сохранить</button>
+    </form>
+</div>
+{% endblock %}

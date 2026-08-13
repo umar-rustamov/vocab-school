@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+:root {
+    --bg: #14181F;
+    --panel: #1E2530;
+    --panel-2: #181e28;
+    --border: #2b3441;
+    --border-strong: #3b4658;
+    --card: #F4EDDC;
+    --text: #EDEAE0;
+    --muted: #8A93A3;
+    --accent: #E8B94E;
+    --teal: #3FA796;
+    --green: #6FCF97;
+    --red: #EB5757;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+    overscroll-behavior: none;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+}
+
+h1, h2, h3, .serif {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+}
+
+a { color: inherit; text-decoration: none; }
+
+.container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 24px 20px 60px;
+}
+
+header.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--panel);
+}
+
+header.topbar .brand {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 1.1rem;
+}
+
+nav.tabs {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 18px 0;
+}
+
+nav.tabs a {
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.9rem;
+}
+
+nav.tabs a.active {
+    background: var(--accent);
+    color: #1B2430;
+    border-color: transparent;
+    font-weight: 600;
+}
+
+.card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 14px;
+}
+
+.card-cream {
+    background: var(--card);
+    color: #1B2430;
+    border-radius: 16px;
+    padding: 30px;
+    text-align: center;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 18px;
+    border-radius: 10px;
+    background: var(--accent);
+    color: #1B2430;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.btn.secondary {
+    background: var(--teal);
+    color: #0f1720;
+}
+
+.btn.danger {
+    background: rgba(235,87,87,0.15);
+    color: var(--red);
+    border: 1px solid var(--red);
+}
+
+.btn.ghost {
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-strong);
+    background: var(--panel-2);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+}
+
+label {
+    font-size: 0.85rem;
+    color: var(--muted);
+    display: block;
+    margin-bottom: 4px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--border);
+}
+
+th { color: var(--muted); font-weight: 500; }
+
+.chip {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    background: var(--panel-2);
+    border: 1px solid var(--border-strong);
+    color: var(--muted);
+    margin: 2px;
+}
+
+.chip.known { background: rgba(111,207,151,0.15); color: var(--green); border-color: var(--green); }
+.chip.new { background: rgba(232,185,78,0.12); color: var(--accent); border-color: var(--accent); }
+
+.flash {
+    padding: 10px 14px;
+    border-radius: 10px;
+    margin-bottom: 14px;
+    font-size: 0.9rem;
+}
+.flash.error { background: rgba(235,87,87,0.12); color: var(--red); border: 1px solid var(--red); }
+.flash.success { background: rgba(111,207,151,0.12); color: var(--green); border: 1px solid var(--green); }
+
+.muted { color: var(--muted); font-size: 0.85rem; }
+
+.progress-bar {
+    height: 8px;
+    background: var(--panel-2);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 6px 0;
+}
+.progress-bar > div {
+    height: 100%;
+    background: var(--teal);
+}
+
+.center-page {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 380px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+}

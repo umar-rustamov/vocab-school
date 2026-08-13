@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Юниты — Vocab School{% endblock %}
+{% block content %}
+<h2>Юниты</h2>
+{% if not unit_stats %}
+    <p class="muted">Учитель пока не загрузил ни одного юнита.</p>
+{% endif %}
+{% for s in unit_stats %}
+<div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center">
+        <div>
+            <strong>Unit {{ s.unit['number'] }}</strong>
+            {% if s.unit['title'] %} — {{ s.unit['title'] }}{% endif %}
+            <div class="muted">Пройдено: {{ s.mastered }} / {{ s.total }}</div>
+        </div>
+        <a class="btn" href="{{ url_for('student_study', unit_id=s.unit['id']) }}">Учить</a>
+    </div>
+    <div class="progress-bar">
+        <div style="width: {{ (s.mastered / s.total * 100) if s.total else 0 }}%"></div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

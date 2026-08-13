@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block title %}Загрузить слова{% endblock %}
+{% block content %}
+<h2>Загрузить слова юнита</h2>
+<div class="card">
+    <form method="POST" enctype="multipart/form-data">
+        <label>Номер юнита</label>
+        <input type="number" name="number" required placeholder="например, 39">
+        <label>Название (необязательно)</label>
+        <input type="text" name="title" placeholder="например, Essential 504 — Unit 39">
+
+        <label>Вставьте текст со словами</label>
+        <textarea name="text" rows="8" placeholder="1) Abandon - Бросить, покидать&#10;Leave, give up, stop&#10;Collocations:&#10;Abandon the family&#10;&#10;2) Keen - острый, проницательный&#10;..."></textarea>
+
+        <label>...или загрузите файл .docx (если есть текст в поле выше — используется он)</label>
+        <input type="file" name="docx_file" accept=".docx">
+
+        <button class="btn" type="submit" style="width:100%">Загрузить</button>
+    </form>
+</div>
+<p class="muted">
+    Формат: пронумерованный список вида «1) Word - перевод», далее синонимы через запятую,
+    затем строка «Collocations:» и словосочетания на отдельных строках. Если юнит с таким
+    номером уже существует — новые слова добавятся к нему, дубликаты пропускаются.
+</p>
+
+<h2>Массовая загрузка (сразу несколько файлов)</h2>
+<div class="card">
+    <form method="POST" action="{{ url_for('teacher_upload_bulk') }}" enctype="multipart/form-data">
+        <label>Выберите сразу несколько файлов .docx</label>
+        <input type="file" name="docx_files" accept=".docx" multiple required>
+        <button class="btn" type="submit" style="width:100%; margin-top:10px">Загрузить все файлы</button>
+    </form>
+</div>
+<p class="muted">
+    Номер юнита определяется автоматически по названию файла (ищет «Unit N» / «unit N»,
+    например «Essential 504 Unit 39.docx» → Unit 39) или по первым строкам текста внутри файла.
+    Название юнита берётся из имени файла. Если для файла не удалось определить номер —
+    он будет пропущен, об этом будет написано в результатах.
+</p>
+{% endblock %}

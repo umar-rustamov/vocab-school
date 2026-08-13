@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Пользователи{% endblock %}
+{% block content %}
+<h2>Пользователи</h2>
+<table>
+    <tr><th>Имя</th><th>Email</th><th>Роль</th><th></th></tr>
+    {% for u in users %}
+    <tr>
+        <td>{{ u['name'] }}</td>
+        <td>{{ u['email'] }}</td>
+        <td>
+            <form method="POST" action="{{ url_for('admin_change_role', user_id=u['id']) }}" style="display:flex; gap:6px; align-items:center; margin:0">
+                <select name="role" style="margin:0; padding:4px 8px; width:auto" onchange="this.form.submit()">
+                    <option value="student" {{ 'selected' if u['role']=='student' }}>student</option>
+                    <option value="teacher" {{ 'selected' if u['role']=='teacher' }}>teacher</option>
+                    <option value="admin" {{ 'selected' if u['role']=='admin' }}>admin</option>
+                </select>
+            </form>
+        </td>
+        <td>
+            <form method="POST" action="{{ url_for('admin_delete_user', user_id=u['id']) }}" onsubmit="return confirm('Удалить пользователя {{ u['name'] }}?')" style="margin:0">
+                <button class="btn danger" type="submit">Удалить</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

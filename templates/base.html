@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>{% block title %}Vocab School{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <meta name="theme-color" content="#14181F">
+</head>
+<body>
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}");
+            });
+        }
+    </script>
+    {% if user %}
+    <header class="topbar">
+        <span class="brand">📚 Vocab School</span>
+        <div class="muted">{{ user['name'] }} · {{ user['role'] }} ·
+            <a href="{{ url_for('logout') }}" style="color: var(--accent)">выйти</a>
+        </div>
+    </header>
+    {% endif %}
+
+    <div class="container">
+        {% if user %}
+        <nav class="tabs">
+            {% if user['role'] == 'student' %}
+                <a href="{{ url_for('student_dashboard') }}" class="{{ 'active' if request.endpoint == 'student_dashboard' }}">Юниты</a>
+                <a href="{{ url_for('student_test') }}" class="{{ 'active' if request.endpoint == 'student_test' }}">Тест</a>
+                <a href="{{ url_for('student_progress') }}" class="{{ 'active' if request.endpoint == 'student_progress' }}">Мой прогресс</a>
+            {% endif %}
+            {% if user['role'] in ('teacher', 'admin') %}
+                <a href="{{ url_for('teacher_dashboard') }}" class="{{ 'active' if request.endpoint == 'teacher_dashboard' }}">Юниты</a>
+                <a href="{{ url_for('teacher_upload') }}" class="{{ 'active' if request.endpoint == 'teacher_upload' }}">Загрузить слова</a>
+                <a href="{{ url_for('teacher_roster') }}" class="{{ 'active' if request.endpoint in ['teacher_roster','teacher_student_progress'] }}">Ученики</a>
+            {% endif %}
+            {% if user['role'] == 'admin' %}
+                <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if request.endpoint == 'admin_dashboard' }}">Админ</a>
+                <a href="{{ url_for('admin_users') }}" class="{{ 'active' if request.endpoint == 'admin_users' }}">Пользователи</a>
+                <a href="{{ url_for('admin_revisions') }}" class="{{ 'active' if request.endpoint == 'admin_revisions' }}">История правок</a>
+            {% endif %}
+        </nav>
+        {% endif %}
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

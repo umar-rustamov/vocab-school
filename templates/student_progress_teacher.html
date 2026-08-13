@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Прогресс — {{ student['name'] }}{% endblock %}
+{% block content %}
+<h2>Прогресс: {{ student['name'] }}</h2>
+<p class="muted">{{ student['email'] }}</p>
+
+<details style="margin-top:16px" open>
+    <summary style="cursor:pointer; font-size:1.3rem; font-family: var(--serif, serif); margin-bottom:12px">
+        Прогресс по юнитам ({{ stats|length }})
+    </summary>
+    {% for s in stats %}
+    <a href="{{ url_for('teacher_student_unit_progress', student_id=student['id'], unit_id=s.unit['id']) }}"
+       style="text-decoration:none; color:inherit; display:block">
+    <div class="card">
+        <div style="display:flex; justify-content:space-between; align-items:center">
+            <div>
+                <strong>Unit {{ s.unit['number'] }}</strong>{% if s.unit['title'] %} — {{ s.unit['title'] }}{% endif %}
+                <div class="muted">
+                    Пройдено: {{ s.mastered }} / {{ s.total }} ·
+                    средний уровень: {{ s.avg_box }} / {{ master_box }}
+                    (насколько уверенно отвечает — растёт с каждым верным ответом подряд,
+                    максимум {{ master_box }})
+                </div>
+            </div>
+        </div>
+        <div class="progress-bar">
+            <div style="width: {{ (s.mastered / s.total * 100) if s.total else 0 }}%"></div>
+        </div>
+    </div>
+    </a>
+    {% endfor %}
+</details>
+{% endblock %}

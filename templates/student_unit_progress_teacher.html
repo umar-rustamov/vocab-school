@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}{{ student['name'] }} — Unit {{ unit['number'] }}{% endblock %}
+{% block content %}
+<p class="muted">
+    <a href="{{ url_for('teacher_student_progress', student_id=student['id']) }}" style="color: var(--accent)">
+        ← {{ student['name'] }}: весь прогресс
+    </a>
+</p>
+<h2>Unit {{ unit['number'] }}{% if unit['title'] %} — {{ unit['title'] }}{% endif %}</h2>
+<p class="muted">
+    {{ student['name'] }} · слова этого юнита, сначала те, что знает хуже всего
+    (уровень 0 — ещё не пробовал, дальше по возрастанию).
+</p>
+
+<table>
+    <tr><th>Слово</th><th>Перевод</th><th>Статус</th><th>Уровень</th><th>Ошибок</th><th>Попыток</th></tr>
+    {% for w in words %}
+    <tr>
+        <td><strong class="serif">{{ w.word }}</strong></td>
+        <td>{{ w.translation }}</td>
+        <td>
+            {% if not w.attempted %}
+                <span class="chip new">Не пробовал</span>
+            {% elif w.learned %}
+                <span class="chip known">Пройдено</span>
+            {% else %}
+                <span class="chip new">Не пройдено</span>
+            {% endif %}
+        </td>
+        <td>{{ w.box if w.box is not none else '—' }} / {{ master_box }}</td>
+        <td>{{ w.wrong if w.attempted else '—' }}</td>
+        <td>{{ w.seen if w.attempted else '—' }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

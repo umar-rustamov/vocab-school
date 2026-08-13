@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Результаты массовой загрузки{% endblock %}
+{% block content %}
+<h2>Результаты массовой загрузки</h2>
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Файл</th>
+                <th>Юнит</th>
+                <th>Результат</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in results %}
+            <tr>
+                <td>{{ r.filename }}</td>
+                <td>{{ r.number if r.ok else '—' }}</td>
+                <td>
+                    {% if r.ok %}
+                        <span style="color: var(--accent)">добавлено слов: {{ r.added }}</span>
+                    {% else %}
+                        <span style="color: #e05252">ошибка: {{ r.error }}</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p><a href="{{ url_for('teacher_upload') }}">← Загрузить ещё</a> ·
+   <a href="{{ url_for('teacher_dashboard') }}">К списку юнитов</a></p>
+{% endblock %}

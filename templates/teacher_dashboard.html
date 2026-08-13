@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %}Юниты — учитель{% endblock %}
+{% block content %}
+<div style="display:flex; justify-content:space-between; align-items:center">
+    <h2>Юниты</h2>
+    <a class="btn" href="{{ url_for('teacher_upload') }}">+ Загрузить слова</a>
+</div>
+<p class="muted">Учеников в системе: {{ student_count }}</p>
+
+{% if not units %}
+    <p class="muted">Пока нет ни одного юнита — загрузите первый.</p>
+{% endif %}
+{% for u in units %}
+<div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center">
+        <div>
+            <strong>Unit {{ u['number'] }}</strong>{% if u['title'] %} — {{ u['title'] }}{% endif %}
+            <div class="muted">{{ u['word_count'] }} слов · автор: {{ u['author_name'] or '—' }}</div>
+        </div>
+        <a class="btn ghost" href="{{ url_for('teacher_unit', unit_id=u['id']) }}">Открыть</a>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

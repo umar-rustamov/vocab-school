@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}Тест — Vocab School{% endblock %}
+{% block content %}
+<h2>Тест: выбери синоним</h2>
+<p class="muted">Пройдено в этом заходе: {{ done_count }} / {{ total }} ({{ progress_pct }}%)</p>
+<div class="progress-bar" style="margin-bottom:16px">
+    <div style="width: {{ progress_pct }}%"></div>
+</div>
+
+{% if result %}
+    <div class="card {{ 'flash success' if result.correct else 'flash error' }}" style="margin-bottom:16px">
+        {% if result.correct %}
+            ✅ Верно!
+        {% else %}
+            ❌ Неверно. Синонимы слова <strong>{{ result.word }}</strong>: {{ result.synonyms | join(', ') }}
+        {% endif %}
+    </div>
+{% endif %}
+
+<div class="card-cream">
+    <div class="serif" style="font-size: 1.8rem">{{ word['word'] }}</div>
+</div>
+
+<form method="POST" style="margin-top:16px">
+    <input type="hidden" name="word_id" value="{{ word['id'] }}">
+    <div style="display:grid; gap:8px">
+        {% for opt in options %}
+            <button class="btn ghost" type="submit" name="answer" value="{{ opt }}" style="width:100%; text-align:left">{{ opt }}</button>
+        {% endfor %}
+    </div>
+</form>
+
+<a class="btn ghost" style="margin-top:12px; display:inline-block" href="{{ url_for('student_test') }}">Пропустить / следующее слово</a>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Изучить — Unit {{ unit['number'] }}{% endblock %}
+{% block content %}
+<h2>Unit {{ unit['number'] }}{% if unit['title'] %} — {{ unit['title'] }}{% endif %}</h2>
+<p class="muted">Сначала изучите слова, потом нажмите «Начать тест» внизу страницы.</p>
+
+{% for w in words %}
+<div class="card">
+    <strong class="serif" style="font-size:1.2rem">{{ w.word }}</strong> — {{ w.translation }}
+    {% if w.synonyms %}
+        <div style="margin-top:6px">
+            {% for s in w.synonyms %}<span class="chip">{{ s }}</span>{% endfor %}
+        </div>
+    {% endif %}
+    {% if w.collocations %}
+        <div class="muted" style="margin-top:6px">{{ w.collocations | join(' · ') }}</div>
+    {% endif %}
+</div>
+{% endfor %}
+
+<a class="btn" style="width:100%; display:block; margin-top:16px; text-align:center; box-sizing:border-box"
+   href="{{ url_for('student_quiz', unit_id=unit['id']) }}">Начать тест →</a>
+<a class="btn ghost" style="width:100%; display:block; margin-top:12px; text-align:center; box-sizing:border-box"
+   href="{{ url_for('student_dashboard') }}">К списку юнитов</a>
+{% endblock %}

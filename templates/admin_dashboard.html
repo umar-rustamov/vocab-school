@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Админ-панель{% endblock %}
+{% block content %}
+<h2>Админ-панель</h2>
+<div class="card">
+    <table>
+        <tr><td>Всего пользователей</td><td>{{ stats.users }}</td></tr>
+        <tr><td>Учеников</td><td>{{ stats.students }}</td></tr>
+        <tr><td>Учителей</td><td>{{ stats.teachers }}</td></tr>
+        <tr><td>Юнитов</td><td>{{ stats.units }}</td></tr>
+        <tr><td>Слов всего</td><td>{{ stats.words }}</td></tr>
+    </table>
+</div>
+<p class="muted">
+    Как администратор вы видите всё то же, что и учителя (юниты, загрузка слов, ученики),
+    плюс управление пользователями и историю правок в меню сверху.
+</p>
+{% endblock %}

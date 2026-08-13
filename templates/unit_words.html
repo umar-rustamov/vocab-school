@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Unit {{ unit['number'] }}{% endblock %}
+{% block content %}
+<h2>Unit {{ unit['number'] }}{% if unit['title'] %} — {{ unit['title'] }}{% endif %}</h2>
+<p class="muted">Слов: {{ words|length }}</p>
+
+{% for w in words %}
+<div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:flex-start">
+        <div>
+            <strong class="serif">{{ w.word }}</strong> — {{ w.translation }}
+            {% if w.synonyms %}
+                <div style="margin-top:6px">
+                    {% for s in w.synonyms %}<span class="chip">{{ s }}</span>{% endfor %}
+                </div>
+            {% endif %}
+            {% if w.collocations %}
+                <div class="muted" style="margin-top:6px">{{ w.collocations | join(' · ') }}</div>
+            {% endif %}
+        </div>
+        <div style="display:flex; gap:6px; flex-shrink:0">
+            <a class="btn ghost" href="{{ url_for('word_edit', word_id=w.id) }}">Изменить</a>
+            <form method="POST" action="{{ url_for('word_delete', word_id=w.id) }}" onsubmit="return confirm('Удалить слово «{{ w.word }}»?')">
+                <button class="btn danger" type="submit">Удалить</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Ученики{% endblock %}
+{% block content %}
+<h2>Ученики</h2>
+{% if not students %}
+    <p class="muted">Пока нет зарегистрированных учеников.</p>
+{% endif %}
+{% for s in students %}
+<div class="card">
+    <div style="display:flex; justify-content:space-between; align-items:center">
+        <div>
+            <strong>{{ s['name'] }}</strong>
+            <div class="muted">{{ s['email'] }}</div>
+        </div>
+        <a class="btn ghost" href="{{ url_for('teacher_student_progress', student_id=s['id']) }}">Прогресс</a>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

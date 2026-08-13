@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Вход — Vocab School</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <meta name="theme-color" content="#14181F">
+</head>
+<body>
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("{{ url_for('static', filename='sw.js') }}");
+            });
+        }
+    </script>
+    <div class="center-page">
+        <div class="auth-card">
+            <h1 style="margin-top:0">Вход</h1>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+            <form method="POST">
+                <label>Email</label>
+                <input type="email" name="email" required>
+                <label>Пароль</label>
+                <input type="password" name="password" required>
+                <button class="btn" type="submit" style="width:100%">Войти</button>
+            </form>
+            <p class="muted" style="margin-top:16px">
+                Нет аккаунта? <a href="{{ url_for('register') }}" style="color: var(--accent)">Зарегистрироваться</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

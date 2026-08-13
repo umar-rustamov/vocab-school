@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Мой прогресс{% endblock %}
+{% block content %}
+<h2>Мой прогресс</h2>
+{% if not rows %}
+    <p class="muted">Вы ещё не проходили тренировку.</p>
+{% endif %}
+<table>
+    <tr><th>Unit</th><th>Слово</th><th>Перевод</th><th>Уровень</th><th>Ответов</th><th>Верно</th></tr>
+    {% for r in rows %}
+    <tr>
+        <td>{{ r['unit_number'] }}</td>
+        <td>{{ r['word'] }}</td>
+        <td>{{ r['translation'] }}</td>
+        <td>
+            {% if r['box'] >= learned_box %}
+                <span class="chip known">Пройдено</span>
+            {% else %}
+                <span class="chip new">Не пройдено</span>
+            {% endif %}
+            <span class="muted">(уровень {{ r['box'] }}/{{ master_box }})</span>
+        </td>
+        <td>{{ r['seen'] }}</td>
+        <td>{{ r['correct'] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

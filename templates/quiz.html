@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block title %}Тренировка — Unit {{ unit['number'] }}{% endblock %}
+{% block content %}
+<h2>Unit {{ unit['number'] }}{% if unit['title'] %} — {{ unit['title'] }}{% endif %}</h2>
+<p class="muted">
+    {% if direction == 'en-ru' %}Английский → Русский
+    {%- elif direction == 'ru-en' %}Русский → Английский
+    {%- else %}Выбери синоним
+    {%- endif %}
+    · Пройдено в этом заходе: {{ done_count }} / {{ total }} ({{ progress_pct }}%)
+</p>
+<div class="progress-bar" style="margin-bottom:16px">
+    <div style="width: {{ progress_pct }}%"></div>
+</div>
+
+{% if result %}
+    <div class="card {{ 'flash success' if result.correct else 'flash error' }}" style="margin-bottom:16px">
+        {% if result.correct %}
+            ✅ Верно!
+            {% if result.matched_synonym %}
+                Вы ответили синонимом «{{ result.matched_synonym }}» — тоже правильно!
+                {% if result.synonyms %}
+                    <br>Другие синонимы слова <strong>{{ result.word }}</strong>: {{ result.synonyms | join(', ') }}
+                {% endif %}
+            {% endif %}
+        {% else %}
+            {% if result.direction == 'en-ru' %}
+                ❌ Неверно. Правильный ответ: <strong>{{ result.translation }}</strong>
+            {% elif result.direction == 'ru-en' %}
+                ❌ Неверно. Правильный ответ: <strong>{{ result.word }}</strong>
+                {% if result.synonyms %}
+                    <br>Синонимы: {{ result.synonyms | join(', ') }}
+                {% endif %}
+            {% else %}
+                ❌ Неверно. Синонимы слова <strong>{{ result.word }}</strong>: {{ result.synonyms | join(', ') }}
+            {% endif %}
+        {% endif %}
+    </div>
+{% endif %}
+
+<div class="card-cream">
+    <div class="serif" style="font-size: 1.8rem">{{ prompt }}</div>
+</div>
+
+<form method="POST" style="margin-top:16px">
+    <input type="hidden" name="word_id" value="{{ word['id'] }}">
+    <input type="hidden" name="direction" value="{{ direction }}">
+    {% if direction == 'synonym' %}
+        <div style="display:grid; gap:8px">
+            {% for opt in options %}
+                <button class="btn ghost" type="submit" name="answer" value="{{ opt }}" style="width:100%; text-align:left">{{ opt }}</button>
+            {% endfor %}
+        </div>
+    {% else %}
+        <input type="text" name="answer" placeholder="{{ 'перевод на русский…' if direction == 'en-ru' else 'English word…' }}" autofocus required>
+        <button class="btn" type="submit" style="width:100%">Проверить</button>
+    {% endif %}
+</form>
+
+<a class="btn ghost" style="margin-top:12px; display:inline-block" href="{{ url_for('student_quiz', unit_id=unit['id']) }}">Пропустить / следующее слово</a>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Unit {{ unit['number'] }} пройден{% endblock %}
+{% block content %}
+
+{% if result %}
+    <div class="card {{ 'flash success' if result.correct else 'flash error' }}" style="margin-bottom:16px">
+        {% if result.correct %}
+            ✅ Верно!
+        {% elif result.direction == 'en-ru' %}
+            ❌ Неверно. Правильный ответ: <strong>{{ result.translation }}</strong>
+        {% elif result.direction == 'ru-en' %}
+            ❌ Неверно. Правильный ответ: <strong>{{ result.word }}</strong>
+        {% else %}
+            ❌ Неверно. Синонимы слова <strong>{{ result.word }}</strong>: {{ result.synonyms | join(', ') }}
+        {% endif %}
+    </div>
+{% endif %}
+
+<div class="card-cream" style="text-align:center; padding: 32px">
+    <div style="font-size:3rem">🎉</div>
+    <h2>Unit {{ unit['number'] }}{% if unit['title'] %} — {{ unit['title'] }}{% endif %} пройден!</h2>
+    <p class="muted">Все {{ total }} слов(а) этого захода отвечены верно (100%). Прогресс сохранён.</p>
+</div>
+
+{% if next_unit %}
+<a class="btn" style="width:100%; display:block; margin-top:16px; text-align:center; box-sizing:border-box"
+   href="{{ url_for('student_study', unit_id=next_unit['id']) }}">
+    Учить Unit {{ next_unit['number'] }}{% if next_unit['title'] %} — {{ next_unit['title'] }}{% endif %} →
+</a>
+{% else %}
+<div class="flash success" style="margin-top:16px">Это был последний юнит — вы прошли всё! 🏆</div>
+{% endif %}
+
+<a class="btn ghost" style="width:100%; display:block; margin-top:12px; text-align:center; box-sizing:border-box"
+   href="{{ url_for('student_quiz', unit_id=unit['id']) }}">Пройти этот юнит ещё раз</a>
+
+<a class="btn ghost" style="width:100%; display:block; margin-top:12px; text-align:center; box-sizing:border-box"
+   href="{{ url_for('student_dashboard') }}">К списку юнитов</a>
+{% endblock %}

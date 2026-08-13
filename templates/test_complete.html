@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Тест пройден{% endblock %}
+{% block content %}
+
+{% if result %}
+    <div class="card {{ 'flash success' if result.correct else 'flash error' }}" style="margin-bottom:16px">
+        {% if result.correct %}
+            ✅ Верно!
+        {% else %}
+            ❌ Неверно. Синонимы слова <strong>{{ result.word }}</strong>: {{ result.synonyms | join(', ') }}
+        {% endif %}
+    </div>
+{% endif %}
+
+<div class="card-cream" style="text-align:center; padding: 32px">
+    <div style="font-size:3rem">🎉</div>
+    <h2>Тест пройден!</h2>
+    <p class="muted">Все {{ total }} слов(а) отвечены верно (100%). Прогресс сохранён.</p>
+</div>
+
+<a class="btn ghost" style="width:100%; display:block; margin-top:16px; text-align:center; box-sizing:border-box"
+   href="{{ url_for('student_test') }}">Пройти тест ещё раз</a>
+
+<a class="btn ghost" style="width:100%; display:block; margin-top:12px; text-align:center; box-sizing:border-box"
+   href="{{ url_for('student_dashboard') }}">К списку юнитов</a>
+{% endblock %}
