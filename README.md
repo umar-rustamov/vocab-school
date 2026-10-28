@@ -1,9 +1,91 @@
 # Vocab School
 
+A Flask web app for learning English vocabulary in a classroom, with separate roles for students, teachers and an administrator.
+
+![Python](https://img.shields.io/badge/Python-3.9%2B-3776AB?logo=python&logoColor=white)
+![Flask](https://img.shields.io/badge/Flask-3.0%2B-000000?logo=flask&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-3-003B57?logo=sqlite&logoColor=white)
+![PWA](https://img.shields.io/badge/PWA-installable-5A0FC8?logo=pwa&logoColor=white)
+
+## Features
+
+**Students**
+- Browse the units uploaded by teachers and read a study page for each unit (word, translation, synonyms, collocations).
+- Practise a unit in rounds. Each word is asked in a randomly chosen mode:
+  English → Russian, Russian → English, or "pick the correct synonym" (multiple choice).
+- A wrong answer sends the word to the end of the queue; the round ends when every word has been answered correctly. Progress within a round is kept in the session, so a student can leave and come back.
+- In Russian → English mode, typing a synonym instead of the headword counts as correct, and the app shows the other synonyms.
+- A combined synonym test across all units.
+- Personal progress page: a mastery level (0–5) per word, with attempts and correct answers.
+
+**Teachers**
+- Upload a unit by pasting text or uploading a `.docx` file in the format `1) Word - translation`, then a line of synonyms, then `Collocations:`.
+- Bulk upload of several `.docx` files at once; the unit number is detected from the file name (`Unit N`).
+- Edit or delete any word.
+- Class roster with per-student, per-unit progress (words learned, average level) and a per-word breakdown that puts the weakest words first.
+
+**Administrator**
+- Everything a teacher can do.
+- Dashboard with counts of users, students, teachers, units and words.
+- User management: change roles (student / teacher / admin) or delete users. Self-registration always creates a student account.
+- Revision history: who uploaded, edited or deleted words, and who changed roles.
+
+**Other**
+- Installable as a Progressive Web App (web manifest and a service worker that caches static assets only).
+- Passwords are hashed with Werkzeug; access to each page is checked by role.
+
+## Tech stack
+
+| Layer | Technology |
+|-------|------------|
+| Backend | Python, Flask (Jinja2 templates, sessions) |
+| Database | SQLite via the standard `sqlite3` module (schema created automatically) |
+| File parsing | `python-docx` for `.docx` uploads, regular expressions for the word-list format |
+| Frontend | Server-rendered HTML, CSS, Web App Manifest, Service Worker |
+
+## Project structure
+
+```
+vocab-school/
+├── app.py            # Flask routes: auth, student, teacher and admin views
+├── db.py             # SQLite schema, connection helper, default admin, revision log
+├── parsing.py        # Parses pasted text / .docx files into word entries
+├── requirements.txt
+├── static/           # style.css, manifest.json, sw.js, app icons
+└── templates/        # Jinja2 templates for every page
+```
+
+## Getting started
+
+Requires Python 3.9 or newer.
+
+```bash
+git clone https://github.com/Umar37-max/-vocab-school.git
+cd ./-vocab-school
+
+python -m venv .venv
+# Windows: .venv\Scripts\activate
+source .venv/bin/activate
+
+pip install -r requirements.txt
+python app.py
+```
+
+Open http://127.0.0.1:5000.
+
+- The SQLite database `vocab_school.db` is created automatically on first start, so there are no migrations to run.
+- A default administrator account is created on first start and its login is printed in the console (see `db.py`). Change it right after the first login.
+- In production, set the `SECRET_KEY` environment variable to a long random string so sessions stay valid across restarts.
+- When the app is deployed behind a WSGI server, the tables are still created because `db.init_db()` runs on import.
+
+---
+
+## На русском
+
 Веб-приложение на Python (Flask) для заучивания слов классом:
 ученики, учителя и главный админ — каждый со своей ролью.
 
-## Что умеет
+### Что умеет
 
 **Ученик**
 - Видит список юнитов (Unit 1, Unit 2...), которые загрузил учитель.
@@ -36,7 +118,7 @@
 поменяйте на свой), чтобы не любой мог сам себя назначить учителем.
 Первый админ создаётся автоматически при первом запуске — см. ниже.
 
-## Как запустить (на компьютере)
+### Как запустить (на компьютере)
 
 Нужен Python 3.9+.
 
@@ -56,7 +138,7 @@ admin@school.local / admin123
 удалить и создать нового админа, либо просто держите это в секрете, если
 запускаете только у себя дома).
 
-## Как дать доступ ученикам и учителю с телефонов
+### Как дать доступ ученикам и учителю с телефонов
 
 Это обычное веб-приложение — им не нужно ничего "скачивать", достаточно
 открыть ссылку в браузере телефона. Два варианта:
@@ -75,7 +157,7 @@ admin@school.local / admin123
 и её можно просто разослать ученикам — работает в браузере на любом телефоне,
 без установки.
 
-## Про APK (важно, честно)
+### Про APK (важно, честно)
 
 Файл `.apk` — это установочный пакет для **нативного** Android-приложения.
 Flask/Python сам по себе `.apk` не создаёт — это веб-сервер, а не мобильное
@@ -93,7 +175,7 @@ Flask/Python сам по себе `.apk` не создаёт — это веб-�
 удобнее APK: не надо ничего устанавливать, работает сразу в браузере, легко
 обновлять.
 
-## Структура проекта
+### Структура проекта
 
 ```
 vocab-school/

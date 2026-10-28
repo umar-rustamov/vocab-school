@@ -1,12 +1,31 @@
 # реальные данные учеников — не должны попадать в git
 vocab_school.db
 *.db
+*.sqlite3
+*.db-journal
 
 # python
 __pycache__/
-*.pyc
+*.py[cod]
 .venv/
 venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# environment / secrets
+.env
+.env.*
+!.env.example
 
 # старый деплой-архив, если появится снова
 *.zip
+
+# logs
+*.log
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
