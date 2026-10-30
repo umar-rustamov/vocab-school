@@ -60,8 +60,8 @@ vocab-school/
 Requires Python 3.9 or newer.
 
 ```bash
-git clone https://github.com/Umar37-max/-vocab-school.git
-cd ./-vocab-school
+git clone https://github.com/umar-rustamov/vocab-school.git
+cd vocab-school
 
 python -m venv .venv
 # Windows: .venv\Scripts\activate
